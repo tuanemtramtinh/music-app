@@ -3,6 +3,7 @@ import { systemConfig } from "../../configs/system";
 import dashboardRoute from "./dashboard.route";
 import topicRoute from "./topic.route";
 import songRoute from "./song.route";
+import uploadRoute from "./upload.route";
 
 export const routeAdmin = (app: Application) => {
   const path = systemConfig.prefixAdmin;
@@ -10,4 +11,5 @@ export const routeAdmin = (app: Application) => {
   app.use(`/${path}/dashboard`, dashboardRoute);
   app.use(`/${path}/topics`, topicRoute);
   app.use(`/${path}/songs`, songRoute);
+  app.use(`/${path}/upload`, uploadRoute);
 };

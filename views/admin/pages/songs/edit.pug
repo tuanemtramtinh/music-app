@@ -2,7 +2,7 @@ extends ../../layouts/default.pug
 block main
   h1(class="mb-4") #{pageTitle}
   form(
-      action=`/${prefixAdmin}/songs/create`
+      action=`/${prefixAdmin}/songs/edit/${song.id}?_method=PATCH`
       method="POST"
       enctype="multipart/form-data"
     )
@@ -13,7 +13,8 @@ block main
           class="form-control"
           id="title"
           name="title"
-          required
+          required 
+          value=song.title
         )
       div(class="form-group")
         label(for="topic") Chủ đề
@@ -25,7 +26,7 @@ block main
         )
           option(value="" disabled selected) -- Chọn chủ đề --
           each item in topics
-            option(value=item.id) #{item.title}
+            option(value=item.id selected=song.topicId===item.id ? true : false) #{item.title}
       div(class="form-group")
         label(for="singer") Ca sĩ
         select(
@@ -36,7 +37,7 @@ block main
         )
           option(value="" disabled selected) -- Chọn ca sĩ --
           each item in singers
-            option(value=item.id) #{item.fullName}
+            option(value=item.id selected=song.singerId===item.id ? true : false) #{item.fullName}
       div(
         class="form-group"
         upload-image
@@ -51,7 +52,7 @@ block main
           upload-image-input
         )
         img(
-          src=""
+          src=song.avatar
           class="image-preview"
           upload-image-preview
         )
@@ -69,7 +70,7 @@ block main
           upload-audio-input
         )
         audio(controls upload-audio-play)
-          source(src="")
+          source(src=song.audio)
       div(class="form-group")
         label(for="lyrics") Lời bài hát
         textarea(
@@ -77,10 +78,7 @@ block main
           id="lyrics"
           name="lyrics"
           rows="15"
-        ).
-          [00:02.00] Lời bài hát từ giây thứ 2
-          [00:04.00] Lời bài hát từ giây thứ 4
-          [00:06.00] Lời bài hát từ giây thứ 6
+        ) #{song.lyrics}
       div(class="form-group")
         label(for="desc") Mô tả
         textarea(
@@ -90,14 +88,14 @@ block main
           name="description"
           rows="5"
           textarea-mce
-        )
+        ) #{song.description}
       div(class="form-group form-check form-check-inline")
         input(
           type="radio"
           class="form-check-input"
           id="statusActive"
           name="status"
-          value="active"
+          value=song.status
           checked
         )
         label(for="statusActive" class="form-check-label") Hoạt động
@@ -114,4 +112,4 @@ block main
         button(
           type="submit"
           class="btn btn-primary"
-        ) Tạo mới
+        ) Chỉnh sửa

@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import { systemConfig } from "./configs/system";
 import path from "path";
 import { routeAdmin } from "./routes/admin/index.route";
+import methodOverride from "method-override";
 
 dotenv.config();
 
@@ -18,6 +19,9 @@ app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 app.use(express.static(`${__dirname}/public`)); // Thiết lập thư mục chứa file tĩnh
 
+// override with POST having ?_method=
+app.use(methodOverride("_method"));
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -26,7 +30,10 @@ app.use(bodyParser.json());
 // App Local Variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 // TinyMCE
-app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+app.use(
+  "/tinymce",
+  express.static(path.join(__dirname, "node_modules", "tinymce"))
+);
 
 app.get("/", (req: Request, res: Response) => {
   res.redirect("/topics");

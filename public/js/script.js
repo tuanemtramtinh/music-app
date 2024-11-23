@@ -1,4 +1,3 @@
-//Tính năng làm dừng xoay, xoay đĩa khi chạy hoặc dừng nhạc
 const aplayer = document.querySelector("#aplayer");
 
 if (aplayer) {
@@ -6,20 +5,28 @@ if (aplayer) {
   const singer = JSON.parse(aplayer.getAttribute("data-singer"));
   const songId = song._id;
 
+  console.log(song);
+
   const ap = new APlayer({
     container: aplayer,
+    lrcType: 1,
     audio: [
       {
         name: song.title,
         artist: singer.fullName,
         url: song.audio,
         cover: song.avatar,
+        lrc: song.lyrics,
       },
     ],
     autoplay: true,
   });
 
+  //Tính năng làm dừng xoay, xoay đĩa khi chạy hoặc dừng nhạc
+
   const innerAvatar = document.querySelector(".inner-avatar");
+
+  innerAvatar.classList.add("paused");
 
   ap.on("play", () => {
     innerAvatar.classList.remove("paused");
